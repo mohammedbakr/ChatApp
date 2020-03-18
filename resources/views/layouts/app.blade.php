@@ -9,9 +9,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- User id -->
-    @if(auth()->user())
-    <meta name="user-id" content="{{ auth()->user()->id }}">
-    @endif
+    <meta name="user-id" content="{{ auth()->user()->id ?? '' }}">
+
+    <!-- User name -->
+    <meta name="user-name" content="{{ auth()->user()->name ?? '' }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 

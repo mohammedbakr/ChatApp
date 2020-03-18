@@ -21,11 +21,16 @@
 }
 
 /* input where users enter their messages */
-#input{
-    height: 35px;
-    width: 95%;
+#chat-text{
     margin-right: 5px;
 }
 
+/* the message itself */
+#message {
+    margin-top: 7px;
+    padding: 10px;
+    max-width: 50%;
+    border-radius: 4px;
+}
 
 

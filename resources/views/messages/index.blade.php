@@ -24,15 +24,27 @@
 
             <div class="col-md-9" id="chat-container">
 
-                <div id="chat" class="h-100">
+                <div id="chat">
 
+                    @foreach ($messages as $message)
+                        
+                    <div id="message" class="{{ auth()->user()->id == $message->user_id ? 'pull-right bg-primary' : 'pull-left bg-info' }}">
 
+                        <p><strong>{{ $message->user->name }}</strong></p>
+
+                        <p>{{ $message->body }}</p>
+                    
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                    
+                    @endforeach
 
                 </div>{{--end of div--}}
 
                 <form action="" id="form">
 
-                        <input type="text" name="" id="input">
+                        <input class="form-control" type="text" name="" id="chat-text" data-url="{{ route('messages.store') }}">
 
                         <button class="btn btn-primary btn-sm">Send</button>
 

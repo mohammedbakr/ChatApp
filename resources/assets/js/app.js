@@ -28,7 +28,7 @@ window.Echo.join(`online`)
         let userId = $('meta[name=user-id]').attr('content');
 
         
-        users.forEach((user) => {
+        users.forEach(function (user){
 
             if(user.id == userId){
 
@@ -63,5 +63,72 @@ window.Echo.join(`online`)
         }
 
         $('#user-' + user.id).remove();
+
+    });
+
+$('#chat-text').keypress(function (e){
+
+    if(e.which == 13){
+
+        e.preventDefault();
+
+        let body = $(this).val();
+
+        let url = $(this).data('url');
+
+        let userName = $('meta[name=user-name]').attr('content');
+
+        $(this).val('');
+
+        $('#chat').append(`
+
+        <div id="message" class="pull-right bg-primary">
+
+            <p><strong>${userName}</strong></p>
+
+            <p>${body}</p>
+    
+        </div>
+        
+        <div class="clearfix"></div>
+
+       `)
+
+        let data = {
+
+            "_token": $('meta[name=csrf-token]').attr('content'),
+            body
+            
+        }
+
+        $.ajax({
+
+            url: url,
+            method: 'post',
+            data: data,
+
+        })
+
+    }// end of if
+
+});
+
+window.Echo.channel('chat-group')
+
+    .listen('MessageDelivered', (e) => {
+
+       $('#chat').append(`
+
+        <div id="message" class="pull-left bg-info">
+
+            <p><strong>${e.message.userName}</strong></p>
+
+            <p>${e.message.body}</p>
+    
+        </div>
+        
+        <div class="clearfix"></div>
+
+       `)
 
     });

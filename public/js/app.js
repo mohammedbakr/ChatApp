@@ -5792,6 +5792,44 @@ window.Echo.join('online').here(function (users) {
     $('#user-' + user.id).remove();
 });
 
+$('#chat-text').keypress(function (e) {
+
+    if (e.which == 13) {
+
+        e.preventDefault();
+
+        var body = $(this).val();
+
+        var url = $(this).data('url');
+
+        var userName = $('meta[name=user-name]').attr('content');
+
+        $(this).val('');
+
+        $('#chat').append('\n\n        <div id="message" class="pull-right bg-primary">\n\n            <p><strong>' + userName + '</strong></p>\n\n            <p>' + body + '</p>\n    \n        </div>\n        \n        <div class="clearfix"></div>\n\n       ');
+
+        var data = {
+
+            "_token": $('meta[name=csrf-token]').attr('content'),
+            body: body
+
+        };
+
+        $.ajax({
+
+            url: url,
+            method: 'post',
+            data: data
+
+        });
+    } // end of if
+});
+
+window.Echo.channel('chat-group').listen('MessageDelivered', function (e) {
+
+    $('#chat').append('\n\n        <div id="message" class="pull-left bg-info">\n\n            <p><strong>' + e.message.userName + '</strong></p>\n\n            <p>' + e.message.body + '</p>\n    \n        </div>\n        \n        <div class="clearfix"></div>\n\n       ');
+});
+
 /***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
